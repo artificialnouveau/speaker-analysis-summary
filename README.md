@@ -15,8 +15,19 @@ This Python application analyzes an audio file, identifies unique speakers in th
 
 You can install these packages using pip:
 ```bash
-pip install pyAudioAnalysis openai-whisper pydub matplotlib wordcloud transformers torch
+pip install pyAudioAnalysis openai-whisper pydub matplotlib wordcloud transformers torch my-voice-analysis
 ```
+
+## NOTE:
+
+After installing My-Voice-Analysis, copy the file myspsolution.praat from
+
+                                      https://github.com/Shahabks/my-voice-analysis  
+
+and save in the directory where you will save audio files for analysis.
+
+Audio files must be in *.wav format, recorded at 44 kHz sample frame and 16 bits of resolution.
+
 
 ## How to Run
 1. Update the `audio_file` variable in the `if __name__ == "__main__":` section of the script to the path of your audio file.
