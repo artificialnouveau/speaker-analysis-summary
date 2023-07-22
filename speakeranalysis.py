@@ -108,12 +108,6 @@ def analyze_audio_file(audio_file, word_cloud=False):
 
     return sentences, speaker_summaries
 
-if __name__ == "__main__":
-    audio_file = os.path.join(os.getcwd(), 'audio_file.wav')  # Replace with your audio file path
-    sentences, summaries = analyze_audio_file(audio_file, word_cloud=True)
-    print("Sentences:", sentences)
-    print("Summaries:", summaries)
-
 
 if __name__ == "__main__":
     audio_file = os.path.join(os.getcwd(), 'audio_file.wav')  # Replace with your audio file path
