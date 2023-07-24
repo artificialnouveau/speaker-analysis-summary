@@ -1,54 +1,72 @@
-# Audio Conversation Analyzer
+# Speaker Analysi
 
-## Overview
-This Python application analyzes an audio file, identifies unique speakers in the conversation, and summarizes the conversation both as a whole and per speaker. It also has an option to create word clouds for the entire conversation and for individual speakers.
+This project provides a Python script to analyze audio files in various ways. It uses OpenAI's Whisper ASR system for speech-to-text, pyAudioAnalysis for speaker diarization, BERT-based Summarizer for text summarization, and the my-voice-analysis library for voice analysis. The script can also generate word clouds for each speaker's transcription.
 
-## Dependencies
-- Python 3.6+
-- pyAudioAnalysis
-- openai-whisper
-- pydub
-- matplotlib
-- wordcloud
-- transformers (for the summarizer)
-- torch (for the summarizer)
+## Getting Started
 
-You can install these packages using pip:
+Ensure you have all necessary Python packages installed. You will need the following:
+
+- OpenAI's Whisper ASR: Install the Python wrapper with `!pip install -U openai-whisper`.
+- BERT-based Summarizer: Install with `pip install bert-extractive-summarizer`.
+- pyAudioAnalysis: Install with `pip install pyAudioAnalysis`.
+- pyDub: Install with `pip install pydub`.
+- my-voice-analysis: Install with `pip install my-voice-analysis`.
+- Matplotlib: Install with `pip install matplotlib`.
+- WordCloud: Install with `pip install wordcloud`.
+
+You will also need to install ffmpeg if you don't have it already: `apt install ffmpeg`.
+
+## Usage
+
+You can use this script by running it from the command line with the path to your audio file as an argument:
+
 ```bash
-pip install pyAudioAnalysis openai-whisper pydub matplotlib wordcloud transformers torch my-voice-analysis
+python script.py my_audio_file.wav
 ```
 
-## NOTE:
+By default, the script will perform speaker diarization, transcription, text summarization, and voice analysis for each speaker, and output this data to JSON files (`sentences.json` and `summaries.json`). It will also perform these analyses for the entire conversation and include that in `summaries.json`.
 
-After installing My-Voice-Analysis, copy the file myspsolution.praat from
+You can also specify the `--word_cloud` argument to generate word clouds for each speaker's transcriptions:
 
-                                      https://github.com/Shahabks/my-voice-analysis  
-
-and save in the directory where you will save audio files for analysis.
-
-Audio files must be in *.wav format, recorded at 44 kHz sample frame and 16 bits of resolution.
-
-
-## How to Run
-1. Update the `audio_file` variable in the `if __name__ == "__main__":` section of the script to the path of your audio file.
-2. Run the script using Python:
 ```bash
-python audio_analysis.py
+python speakeranalysis.py my_audio_file.wav --word_cloud
 ```
 
-## Functionality
-
-### Speaker Diarization
-This script uses pyAudioAnalysis's speaker diarization functionality to separate the conversation into segments by speaker.
-
-### Speech-to-Text
-Each segment from the speaker diarization is transcribed to text using OpenAI's Whisper ASR system.
-
-### Text Summarization
-The transcript for each speaker segment, as well as the entire conversation, is summarized using a BERT-based text summarizer.
-
-### Word Clouds
-Optionally, the script can generate a word cloud for each speaker segment and for the entire conversation. The word clouds are displayed as plots.
+Note: The script assumes 2 speakers in the audio file for diarization. You can change this by modifying the `n_speakers` argument in the `speaker_diarization` function.
 
 ## Output
-The script prints the summary of the conversation for each speaker and optionally displays the word clouds.
+
+The script outputs two JSON files:
+
+1. `sentences.json`: Contains the transcriptions, speaker ID, and timestamp for each sentence.
+2. `summaries.json`: Contains the summarized text and voice analysis data for each speaker, and for the entire conversation.
+
+Each entry in `sentences.json` is in the following format:
+
+```json
+{
+    "text": "transcription of sentence",
+    "speaker": "speaker ID",
+    "timestamp": [start time, end time]
+}
+```
+
+Each entry in `summaries.json` (except for the 'Total' entry) is in the following format:
+
+```json
+"Speaker ID": {
+    "summary": "summarized text",
+    "voice_analysis": {
+        "Gender recognition": gender,
+        "Speech mood (semantic analysis)": mood,
+        "Pronunciation posterior score": score,
+        "Articulation-rate": rate,
+        "Speech rate": rate,
+        "Filler words": words
+    }
+}
+```
+
+The 'Total' entry in `summaries.json` contains the summarized text and voice analysis data for the entire conversation. The voice analysis data for the 'Total' entry is the analysis of the last speaker segment.
+
+If you specify the `--word_cloud` argument, the script will also generate and display word clouds for each speaker's transcriptions.
