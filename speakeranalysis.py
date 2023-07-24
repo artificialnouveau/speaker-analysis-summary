@@ -1,3 +1,4 @@
+import argparse
 import os
 import matplotlib.pyplot as plt
 from pyAudioAnalysis import audioSegmentation as aS
@@ -110,8 +111,13 @@ def analyze_audio_file(audio_file, word_cloud=False):
 
 
 if __name__ == "__main__":
-    audio_file = os.path.join(os.getcwd(), 'audio_file.wav')  # Replace with your audio file path
-    summaries, speakers = analyze_audio_file(audio_file, word_cloud=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("audio_file", help="Path to the audio file to analyze")
+    parser.add_argument("--word_cloud", action="store_true", help="If specified, generate word clouds")
+
+    args = parser.parse_args()
+
+    summaries, speakers = analyze_audio_file(args.audio_file, args.word_cloud)
     
     for i, summary in enumerate(summaries):
         print(f"Speaker {speakers[i]} summary: {summary}")
