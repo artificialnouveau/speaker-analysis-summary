@@ -1,4 +1,4 @@
-# Speaker Analysi
+# Speaker Analysis
 
 This project provides a Python script to analyze audio files in various ways. It uses OpenAI's Whisper ASR system for speech-to-text, pyAudioAnalysis for speaker diarization, BERT-based Summarizer for text summarization, and the my-voice-analysis library for voice analysis. The script can also generate word clouds for each speaker's transcription.
 
